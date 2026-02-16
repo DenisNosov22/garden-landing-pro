@@ -1,0 +1,259 @@
+<!doctype html>
+<html lang="uk">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <title>Все для саду та городу — насіння, інструменти, добрива</title>
+  <meta name="description" content="Магазин для саду та городу: насіння, інструменти, добрива, полив. Швидка доставка, консультація, гарантія." />
+
+  <!-- OpenGraph -->
+  <meta property="og:title" content="Все для саду та городу" />
+  <meta property="og:description" content="Насіння, інструменти, добрива, полив. Доставка 1–3 дні." />
+  <meta property="og:type" content="website" />
+
+  <link rel="stylesheet" href="./styles.css" />
+</head>
+
+<body>
+  <header class="header">
+    <div class="container header__inner">
+      <a class="logo" href="#top">BALAGRO</a>
+
+      <nav class="nav">
+        <a href="#catalog">Каталог</a>
+        <a href="#benefits">Переваги</a>
+        <a href="#reviews">Відгуки</a>
+        <a href="#faq">FAQ</a>
+        <a class="btn btn--small" href="#order">Замовити</a>
+      </nav>
+
+      <button class="burger" id="burgerBtn" aria-label="Меню">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+
+    <div class="mobile-nav" id="mobileNav">
+      <a href="#catalog">Каталог</a>
+      <a href="#benefits">Переваги</a>
+      <a href="#reviews">Відгуки</a>
+      <a href="#faq">FAQ</a>
+      <a href="#order">Замовити</a>
+    </div>
+  </header>
+
+  <main id="top">
+    <!-- HERO -->
+    <section class="hero">
+      <div class="container hero__grid">
+        <div class="hero__text">
+          <h1>Все для вашого саду — від насіння до техніки</h1>
+          <p>Інструменти, насіння, добрива, полив. Доставка 1–3 дні. Консультація — без “включіть/виключіть” 😄</p>
+
+          <div class="hero__actions">
+            <a class="btn" href="#catalog">Перейти в каталог</a>
+            <a class="btn btn--ghost" href="#order">Отримати консультацію</a>
+          </div>
+
+          <div class="hero__trust">
+            <div class="pill">🚚 Доставка 1–3 дні</div>
+            <div class="pill">✅ Гарантія якості</div>
+            <div class="pill">📞 Підтримка</div>
+          </div>
+        </div>
+
+        <div class="hero__card">
+          <div class="hero__cardTop">
+            <div class="badge">-10% новим клієнтам</div>
+            <div class="hero__price">
+              <span>Хіт тижня:</span>
+              <strong>Система крапельного поливу</strong>
+              <div class="priceRow">
+                <span class="price">799 ₴</span>
+                <span class="oldPrice">999 ₴</span>
+              </div>
+            </div>
+          </div>
+          <button class="btn btn--full" data-quick-add="drip-kit">Додати в кошик</button>
+          <p class="muted">Акція діє до кінця тижня.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- CATALOG -->
+    <section class="section" id="catalog">
+      <div class="container">
+        <div class="section__head">
+          <h2>Каталог</h2>
+          <p class="muted">Пошук, фільтр, кошик — усе як у дорослих магазинах.</p>
+        </div>
+
+        <div class="controls">
+          <input id="searchInput" class="input" type="search" placeholder="Пошук товарів… (наприклад: лопата)" />
+          <select id="categorySelect" class="select">
+            <option value="all">Всі категорії</option>
+          </select>
+          <select id="sortSelect" class="select">
+            <option value="popular">Сортувати: популярні</option>
+            <option value="priceAsc">Ціна: ↑</option>
+            <option value="priceDesc">Ціна: ↓</option>
+            <option value="nameAsc">Назва: A→Я</option>
+          </select>
+          <button class="btn btn--ghost" id="clearBtn">Скинути</button>
+        </div>
+
+        <div class="grid" id="productsGrid"></div>
+      </div>
+    </section>
+
+    <!-- BENEFITS -->
+    <section class="section section--alt" id="benefits">
+      <div class="container">
+        <div class="section__head">
+          <h2>Чому ми</h2>
+        </div>
+
+        <div class="cards3">
+          <div class="card">
+            <h3>Швидка доставка</h3>
+            <p>По Україні 1–3 дні. Без квестів “де посилка?”</p>
+          </div>
+          <div class="card">
+            <h3>Перевірена якість</h3>
+            <p>Товари від нормальних постачальників, не “з гаража під Києвом”.</p>
+          </div>
+          <div class="card">
+            <h3>Консультація</h3>
+            <p>Підкажемо під ваш ґрунт/ділянку/сезон.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- REVIEWS -->
+    <section class="section" id="reviews">
+      <div class="container">
+        <div class="section__head">
+          <h2>Відгуки</h2>
+        </div>
+
+        <div class="cards3">
+          <div class="card">
+            <p>“Полив поставив за вечір. Помідори щасливіші за мене.”</p>
+            <div class="muted">— Андрій, Вінниця</div>
+          </div>
+          <div class="card">
+            <p>“Насіння зійшло дружно. Це вже підозріло добре 😄”</p>
+            <div class="muted">— Олена, Львів</div>
+          </div>
+          <div class="card">
+            <p>“Інструменти норм, доставка швидка.”</p>
+            <div class="muted">— Ігор, Харків</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- FAQ -->
+    <section class="section section--alt" id="faq">
+      <div class="container">
+        <div class="section__head">
+          <h2>FAQ</h2>
+        </div>
+
+        <div class="faq">
+          <details>
+            <summary>Яка доставка?</summary>
+            <p>1–3 дні по Україні (в залежності від перевізника).</p>
+          </details>
+          <details>
+            <summary>Чи є повернення?</summary>
+            <p>Так, згідно правил магазину та законодавства. Брак — міняємо/повертаємо.</p>
+          </details>
+          <details>
+            <summary>Як оформити замовлення?</summary>
+            <p>Додайте товари в кошик → заповніть форму → надішліть.</p>
+          </details>
+          <details>
+            <summary>Чи допоможете підібрати добриво?</summary>
+            <p>Так, у формі напишіть культуру і сезон.</p>
+          </details>
+          <details>
+            <summary>Чи можна оплатити післяплатою?</summary>
+            <p>Так, якщо підтримує перевізник.</p>
+          </details>
+        </div>
+      </div>
+    </section>
+
+    <!-- ORDER -->
+    <section class="section" id="order">
+      <div class="container order">
+        <div class="order__left">
+          <div class="section__head">
+            <h2>Оформлення замовлення</h2>
+            <p class="muted">Кошик справа. Після відправки замовлення піде в Google Sheets.</p>
+          </div>
+
+          <form id="orderForm" class="form">
+            <label class="label">
+              Ім’я
+              <input class="input" name="name" required minlength="2" placeholder="Ден" />
+            </label>
+
+            <label class="label">
+              Телефон
+              <input class="input" name="phone" required placeholder="+380…" />
+            </label>
+
+            <label class="label">
+              Коментар (необов’язково)
+              <textarea class="textarea" name="comment" rows="4" placeholder="Хочу полив на 20 метрів, порадьте комплект"></textarea>
+            </label>
+
+            <div class="form__row">
+              <button class="btn" type="submit">Надіслати замовлення</button>
+              <button class="btn btn--ghost" type="button" id="clearCartBtn">Очистити кошик</button>
+            </div>
+
+            <div class="notice" id="formNotice" aria-live="polite"></div>
+          </form>
+        </div>
+
+        <!-- CART -->
+        <aside class="cart">
+          <div class="cart__head">
+            <h3>Кошик</h3>
+            <div class="muted" id="cartCount">0 товарів</div>
+          </div>
+
+          <div class="cart__list" id="cartList"></div>
+
+          <div class="cart__footer">
+            <div class="cart__totalRow">
+              <span>Сума</span>
+              <strong id="cartTotal">0 ₴</strong>
+            </div>
+            <a class="btn btn--full" href="#order">Перейти до оформлення</a>
+          </div>
+        </aside>
+      </div>
+    </section>
+
+    <footer class="footer">
+      <div class="container footer__inner">
+        <div>
+          <div class="logo">BALAGRO</div>
+          <div class="muted">Все для саду та городу</div>
+        </div>
+        <div class="muted">
+          Контакти: <a href="tel:+380000000000">+38 (000) 000-00-00</a> ·
+          <a href="#">Telegram</a>
+        </div>
+      </div>
+    </footer>
+  </main>
+
+  <script src="./app.js"></script>
+</body>
+</html>

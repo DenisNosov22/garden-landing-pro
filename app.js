@@ -1,0 +1,379 @@
+/* =========================
+   ДАНІ (до 20 товарів)
+========================= */
+const PRODUCTS = [
+  { id: "drip-kit", name: "Крапельний полив (комплект)", category: "Полив", price: 799, popular: 10, desc: "Комплект для 20–30 м грядок. Економить воду." },
+  { id: "shovel", name: "Лопата садова", category: "Інструменти", price: 349, popular: 9, desc: "Міцна сталь, зручна ручка." },
+  { id: "rake", name: "Граблі металеві", category: "Інструменти", price: 299, popular: 8, desc: "Для листя та вирівнювання ґрунту." },
+  { id: "seeds-tomato", name: "Насіння томатів (пакет)", category: "Насіння", price: 39, popular: 10, desc: "Стабільне сходження, перевірена партія." },
+  { id: "seeds-cucumber", name: "Насіння огірків (пакет)", category: "Насіння", price: 35, popular: 8, desc: "Ранній сорт, підходить для теплиці." },
+  { id: "fertilizer-universal", name: "Добриво універсальне 1 кг", category: "Добрива", price: 189, popular: 9, desc: "Для овочів, ягід, квітів." },
+  { id: "fertilizer-bio", name: "Біо-добриво (концентрат)", category: "Добрива", price: 249, popular: 7, desc: "Підтримка росту та кореневої системи." },
+  { id: "gloves", name: "Рукавички садові", category: "Аксесуари", price: 79, popular: 7, desc: "Захист рук, не ковзають." },
+  { id: "shears", name: "Секатор", category: "Інструменти", price: 269, popular: 8, desc: "Для обрізки гілок та кущів." },
+  { id: "hose", name: "Шланг поливний 20 м", category: "Полив", price: 499, popular: 6, desc: "Гнучкий, міцний, зручний." },
+  { id: "sprayer", name: "Обприскувач 5 л", category: "Полив", price: 399, popular: 7, desc: "Для підживлення та захисту рослин." },
+  { id: "soil", name: "Ґрунт універсальний 20 л", category: "Ґрунти", price: 159, popular: 6, desc: "Для розсади та пересадки." },
+];
+
+/* =========================
+   СТЕЙТ
+========================= */
+const state = {
+  search: "",
+  category: "all",
+  sort: "popular",
+  cart: loadCart(), // { [id]: qty }
+};
+
+/* =========================
+   DOM
+========================= */
+const productsGrid = document.getElementById("productsGrid");
+const searchInput = document.getElementById("searchInput");
+const categorySelect = document.getElementById("categorySelect");
+const sortSelect = document.getElementById("sortSelect");
+const clearBtn = document.getElementById("clearBtn");
+
+const cartList = document.getElementById("cartList");
+const cartTotal = document.getElementById("cartTotal");
+const cartCount = document.getElementById("cartCount");
+const clearCartBtn = document.getElementById("clearCartBtn");
+
+const orderForm = document.getElementById("orderForm");
+const formNotice = document.getElementById("formNotice");
+
+const burgerBtn = document.getElementById("burgerBtn");
+const mobileNav = document.getElementById("mobileNav");
+
+/* =========================
+   INIT
+========================= */
+initCategories();
+renderProducts();
+renderCart();
+wireEvents();
+
+/* =========================
+   UI / EVENTS
+========================= */
+function wireEvents() {
+  searchInput.addEventListener("input", (e) => {
+    state.search = e.target.value.trim().toLowerCase();
+    renderProducts();
+  });
+
+  categorySelect.addEventListener("change", (e) => {
+    state.category = e.target.value;
+    renderProducts();
+  });
+
+  sortSelect.addEventListener("change", (e) => {
+    state.sort = e.target.value;
+    renderProducts();
+  });
+
+  clearBtn.addEventListener("click", () => {
+    state.search = "";
+    state.category = "all";
+    state.sort = "popular";
+    searchInput.value = "";
+    categorySelect.value = "all";
+    sortSelect.value = "popular";
+    renderProducts();
+  });
+
+  productsGrid.addEventListener("click", (e) => {
+    const btn = e.target.closest("[data-add]");
+    if (!btn) return;
+    const id = btn.getAttribute("data-add");
+    addToCart(id, 1);
+  });
+
+  // Quick add from hero
+  document.body.addEventListener("click", (e) => {
+    const btn = e.target.closest("[data-quick-add]");
+    if (!btn) return;
+    const id = btn.getAttribute("data-quick-add");
+    addToCart(id, 1);
+    // маленький UX
+    btn.textContent = "Додано ✅";
+    setTimeout(() => (btn.textContent = "Додати в кошик"), 800);
+  });
+
+  cartList.addEventListener("click", (e) => {
+    const inc = e.target.closest("[data-inc]");
+    const dec = e.target.closest("[data-dec]");
+    const remove = e.target.closest("[data-remove]");
+
+    if (inc) changeQty(inc.getAttribute("data-inc"), +1);
+    if (dec) changeQty(dec.getAttribute("data-dec"), -1);
+    if (remove) removeFromCart(remove.getAttribute("data-remove"));
+  });
+
+  clearCartBtn.addEventListener("click", () => {
+    state.cart = {};
+    persistCart();
+    renderCart();
+  });
+
+  orderForm.addEventListener("submit", onSubmitOrder);
+
+  burgerBtn.addEventListener("click", () => {
+    const isOpen = mobileNav.style.display === "block";
+    mobileNav.style.display = isOpen ? "none" : "block";
+  });
+
+  mobileNav.addEventListener("click", (e) => {
+    if (e.target.tagName === "A") mobileNav.style.display = "none";
+  });
+}
+
+/* =========================
+   PRODUCTS RENDER
+========================= */
+function initCategories() {
+  const categories = Array.from(new Set(PRODUCTS.map(p => p.category))).sort((a,b)=>a.localeCompare(b, "uk"));
+  for (const cat of categories) {
+    const opt = document.createElement("option");
+    opt.value = cat;
+    opt.textContent = cat;
+    categorySelect.appendChild(opt);
+  }
+}
+
+function getFilteredProducts() {
+  let list = [...PRODUCTS];
+
+  if (state.category !== "all") {
+    list = list.filter(p => p.category === state.category);
+  }
+  if (state.search) {
+    list = list.filter(p =>
+      p.name.toLowerCase().includes(state.search) ||
+      p.category.toLowerCase().includes(state.search) ||
+      p.desc.toLowerCase().includes(state.search)
+    );
+  }
+
+  switch (state.sort) {
+    case "priceAsc": list.sort((a,b)=>a.price-b.price); break;
+    case "priceDesc": list.sort((a,b)=>b.price-a.price); break;
+    case "nameAsc": list.sort((a,b)=>a.name.localeCompare(b.name, "uk")); break;
+    default: list.sort((a,b)=>b.popular-a.popular);
+  }
+  return list;
+}
+
+function renderProducts() {
+  const list = getFilteredProducts();
+  productsGrid.innerHTML = "";
+
+  if (list.length === 0) {
+    productsGrid.innerHTML = `<div class="card" style="grid-column:1/-1;">
+      <h3>Нічого не знайдено</h3>
+      <p class="muted">Спробуй інший запит або скинь фільтри.</p>
+    </div>`;
+    return;
+  }
+
+  for (const p of list) {
+    const el = document.createElement("div");
+    el.className = "product";
+    el.innerHTML = `
+      <div class="product__top">
+        <div class="product__name">${escapeHtml(p.name)}</div>
+        <div class="tag">${escapeHtml(p.category)}</div>
+      </div>
+      <div class="product__desc">${escapeHtml(p.desc)}</div>
+      <div class="product__meta">
+        <div class="product__price">${p.price} ₴</div>
+        <div class="muted">★ ${p.popular}/10</div>
+      </div>
+      <div class="product__actions">
+        <button class="btn btn--full" data-add="${p.id}">Додати в кошик</button>
+      </div>
+    `;
+    productsGrid.appendChild(el);
+  }
+}
+
+/* =========================
+   CART
+========================= */
+function addToCart(id, qty) {
+  const product = PRODUCTS.find(p => p.id === id);
+  if (!product) return;
+
+  state.cart[id] = (state.cart[id] || 0) + qty;
+  if (state.cart[id] < 1) delete state.cart[id];
+
+  persistCart();
+  renderCart();
+}
+
+function changeQty(id, delta) {
+  if (!state.cart[id]) return;
+  state.cart[id] += delta;
+  if (state.cart[id] < 1) delete state.cart[id];
+  persistCart();
+  renderCart();
+}
+
+function removeFromCart(id) {
+  delete state.cart[id];
+  persistCart();
+  renderCart();
+}
+
+function renderCart() {
+  const entries = Object.entries(state.cart);
+  cartList.innerHTML = "";
+
+  if (entries.length === 0) {
+    cartList.innerHTML = `<div class="muted">Кошик порожній. Додай щось корисне, а не “мрію про врожай”. 😄</div>`;
+    cartTotal.textContent = "0 ₴";
+    cartCount.textContent = "0 товарів";
+    return;
+  }
+
+  let total = 0;
+  let count = 0;
+
+  for (const [id, qty] of entries) {
+    const product = PRODUCTS.find(p => p.id === id);
+    if (!product) continue;
+
+    const line = product.price * qty;
+    total += line;
+    count += qty;
+
+    const item = document.createElement("div");
+    item.className = "cartItem";
+    item.innerHTML = `
+      <div class="cartItem__row">
+        <strong>${escapeHtml(product.name)}</strong>
+        <span>${line} ₴</span>
+      </div>
+      <div class="cartItem__row">
+        <div class="qty">
+          <button type="button" data-dec="${id}" aria-label="Зменшити">−</button>
+          <span>${qty} шт</span>
+          <button type="button" data-inc="${id}" aria-label="Збільшити">+</button>
+        </div>
+        <button type="button" class="btn btn--ghost" data-remove="${id}">Видалити</button>
+      </div>
+      <div class="muted" style="font-size:12px;">${product.price} ₴ / шт</div>
+    `;
+    cartList.appendChild(item);
+  }
+
+  cartTotal.textContent = `${total} ₴`;
+  cartCount.textContent = `${count} товарів`;
+}
+
+/* =========================
+   ORDER SUBMIT (Google Sheets)
+========================= */
+/**
+ * 1) Створиш Google Apps Script web app URL і вставиш сюди:
+ * const ORDER_ENDPOINT = "https://script.google.com/macros/s/....../exec";
+ */
+const ORDER_ENDPOINT = "https://script.google.com/macros/s/AKfycbzm3J_2o-ZwvWq6Gi2EHj-fE2q5sok7XDMNn1EVhpGCGlWYHXSivlEETj3MApxUujrLnw/exec";
+
+async function onSubmitOrder(e) {
+  e.preventDefault();
+  formNotice.textContent = "";
+
+  const entries = Object.entries(state.cart);
+  if (entries.length === 0) {
+    formNotice.textContent = "Кошик порожній — нема що відправляти 🙂";
+    return;
+  }
+
+  const formData = new FormData(orderForm);
+  const payload = {
+    name: String(formData.get("name") || "").trim(),
+    phone: String(formData.get("phone") || "").trim(),
+    comment: String(formData.get("comment") || "").trim(),
+    items: entries.map(([id, qty]) => {
+      const p = PRODUCTS.find(x => x.id === id);
+      return { id, name: p?.name || id, price: p?.price || 0, qty };
+    }),
+    total: calcTotal(),
+    createdAt: new Date().toISOString(),
+    userAgent: navigator.userAgent,
+  };
+
+  if (payload.name.length < 2) { formNotice.textContent = "Вкажи ім’я (мінімум 2 символи)."; return; }
+  if (payload.phone.length < 7) { formNotice.textContent = "Вкажи нормальний телефон 🙂"; return; }
+  if (!ORDER_ENDPOINT || ORDER_ENDPOINT.includes("PASTE_")) {
+    formNotice.textContent = "Нема endpoint. Спочатку підключи Google Sheets (крок 5).";
+    return;
+  }
+
+  try {
+    setBusy(true);
+    const res = await fetch(ORDER_ENDPOINT, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(payload),
+    });
+
+    if (!res.ok) throw new Error(`HTTP ${res.status}`);
+    const data = await res.json();
+
+    if (data?.ok) {
+      formNotice.textContent = "Замовлення надіслано ✅ Ми з тобою зв’яжемось.";
+      orderForm.reset();
+      state.cart = {};
+      persistCart();
+      renderCart();
+    } else {
+      throw new Error(data?.error || "Unknown error");
+    }
+  } catch (err) {
+    console.error(err);
+    formNotice.textContent = "Помилка відправки. Перевір Apps Script доступ або URL.";
+  } finally {
+    setBusy(false);
+  }
+}
+
+function calcTotal() {
+  return Object.entries(state.cart).reduce((sum, [id, qty]) => {
+    const p = PRODUCTS.find(x => x.id === id);
+    return sum + (p ? p.price * qty : 0);
+  }, 0);
+}
+
+function setBusy(isBusy) {
+  const btn = orderForm.querySelector('button[type="submit"]');
+  btn.disabled = isBusy;
+  btn.textContent = isBusy ? "Відправляю…" : "Надіслати замовлення";
+}
+
+/* =========================
+   STORAGE + HELPERS
+========================= */
+function persistCart() {
+  localStorage.setItem("gg_cart", JSON.stringify(state.cart));
+}
+
+function loadCart() {
+  try {
+    const raw = localStorage.getItem("gg_cart");
+    return raw ? JSON.parse(raw) : {};
+  } catch {
+    return {};
+  }
+}
+
+function escapeHtml(str) {
+  return String(str)
+    .replaceAll("&", "&amp;")
+    .replaceAll("<", "&lt;")
+    .replaceAll(">", "&gt;")
+    .replaceAll('"', "&quot;")
+    .replaceAll("'", "&#039;");
+}
