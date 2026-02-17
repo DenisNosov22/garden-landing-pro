@@ -1,0 +1,91 @@
+<!doctype html>
+<html lang="uk">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>BALAGRO — FAQ</title>
+  <meta name="description" content="Відповіді на популярні запитання про доставку, оплату і замовлення BALAGRO." />
+  <link rel="stylesheet" href="../style/styles.css" />
+</head>
+<body class="inner-page">
+  <header class="header">
+    <div class="container header__inner">
+      <a class="logo" href="../../index.html">BALAGRO</a>
+      <nav class="nav">
+        <a class="nav__home" href="../../index.html" aria-label="На головну" title="Головна">🏠</a>
+        <a href="./catalog.html">Каталог</a>
+        <a href="./benefits.html">Переваги</a>
+        <a href="./reviews.html">Відгуки</a>
+        <a href="./faq.html">FAQ</a>
+      </nav>
+      <button class="burger" id="burgerBtn" aria-label="Меню"><span></span><span></span><span></span></button>
+      <a class="cart-toggle" href="./catalog.html" aria-label="Відкрити кошик">🛒<span class="cart-toggle__badge">0</span></a>
+    </div>
+    <div class="mobile-nav" id="mobileNav">
+      <a href="./catalog.html">Каталог</a>
+      <a href="../../index.html">🏠 Головна</a>
+      <a href="./benefits.html">Переваги</a>
+      <a href="./reviews.html">Відгуки</a>
+      <a href="./faq.html">FAQ</a>
+    </div>
+  </header>
+
+  <main class="inner-main">
+    <section class="section section--alt inner-section" id="faq">
+      <div class="container">
+        <div class="section__head">
+          <h2>FAQ</h2>
+          <p class="muted">Найчастіші питання про замовлення та доставку.</p>
+        </div>
+        <div class="faq">
+          <details>
+            <summary>Яка доставка?</summary>
+            <p>1–3 дні по Україні (залежно від перевізника і міста).</p>
+          </details>
+          <details>
+            <summary>Чи є повернення?</summary>
+            <p>Так, згідно правил магазину та чинного законодавства України.</p>
+          </details>
+          <details>
+            <summary>Як оформити замовлення?</summary>
+            <p>Додайте товари у кошик в каталозі і заповніть форму оформлення.</p>
+          </details>
+          <details>
+            <summary>Чи допоможете підібрати добриво?</summary>
+            <p>Так, вкажіть культуру, сезон і бажаний результат — підберемо оптимальний варіант.</p>
+          </details>
+          <details>
+            <summary>Чи можна оплатити післяплатою?</summary>
+            <p>Так, якщо такий спосіб оплати підтримує служба доставки.</p>
+          </details>
+        </div>
+        <div style="margin-top:16px;">
+          <a class="btn" href="./catalog.html">Перейти в каталог</a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="container footer__inner">
+      <div>
+        <div class="logo">BALAGRO</div>
+        <div class="muted">Все для саду та городу</div>
+      </div>
+      <div class="muted">Контакти: <a href="tel:+380000000000">+38 (000) 000-00-00</a> · <a href="#">Telegram</a></div>
+    </div>
+  </footer>
+
+  <script>
+    const burgerBtn = document.getElementById("burgerBtn");
+    const mobileNav = document.getElementById("mobileNav");
+    burgerBtn?.addEventListener("click", () => {
+      const isOpen = mobileNav.style.display === "block";
+      mobileNav.style.display = isOpen ? "none" : "block";
+    });
+    mobileNav?.addEventListener("click", (e) => {
+      if (e.target.tagName === "A") mobileNav.style.display = "none";
+    });
+  </script>
+</body>
+</html>
