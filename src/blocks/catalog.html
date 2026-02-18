@@ -1,0 +1,160 @@
+<!doctype html>
+<html lang="uk">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <title>BALAGRO — Каталог</title>
+  <meta name="description" content="Каталог товарів для саду та городу: насіння, інструменти, добрива, полив." />
+
+  <meta property="og:title" content="BALAGRO — Каталог" />
+  <meta property="og:description" content="Насіння, інструменти, добрива, полив. Доставка 1–3 дні." />
+  <meta property="og:type" content="website" />
+
+  <link rel="icon" type="image/png" href="../images/logo_url.png" />
+  <link rel="stylesheet" href="../style/styles.css" />
+</head>
+
+<body>
+  <header class="header">
+    <div class="container header__inner">
+      <a class="logo" href="../../index.html">
+        <img class="logo__brand" src="../images/logo_too.png" alt="BALAGRO" />
+      </a>
+
+      <nav class="nav">
+        <a class="nav__home" href="../../index.html" aria-label="На головну" title="Головна">🏠</a>
+        <a href="./catalog.html">Каталог</a>
+        <a href="./benefits.html">Переваги</a>
+        <a href="./reviews.html">Відгуки</a>
+        <a href="./faq.html">FAQ</a>
+      </nav>
+
+      <button class="burger" id="burgerBtn" aria-label="Меню">
+        <span></span><span></span><span></span>
+      </button>
+
+      <button class="cart-toggle" id="cartToggleBtn" aria-label="Відкрити кошик" aria-expanded="false" aria-controls="cartPanel">
+        🛒
+        <span class="cart-toggle__badge" id="cartBadge">0</span>
+      </button>
+    </div>
+
+    <div class="mobile-nav" id="mobileNav">
+      <a href="./catalog.html">Каталог</a>
+      <a href="../../index.html">🏠 Головна</a>
+      <a href="./benefits.html">Переваги</a>
+      <a href="./reviews.html">Відгуки</a>
+      <a href="./faq.html">FAQ</a>
+    </div>
+  </header>
+
+  <main id="top">
+    <!-- CATALOG -->
+    <section class="section" id="catalog">
+      <div class="container">
+        <div class="section__head">
+          <h2>Каталог</h2>
+        </div>
+
+        <div class="controls">
+          <input id="searchInput" class="input" type="search" placeholder="Пошук товарів… (наприклад: лопата)" />
+          <div class="select-custom" id="categoryCustom">
+            <button class="select-custom__trigger" id="categoryCustomBtn" type="button" aria-expanded="false" aria-haspopup="listbox">
+              Всі категорії
+            </button>
+            <div class="select-custom__menu" id="categoryCustomMenu" role="listbox" aria-label="Категорії"></div>
+            <select id="categorySelect" class="select select--native-hidden" tabindex="-1" aria-hidden="true">
+              <option value="all">Всі категорії</option>
+            </select>
+          </div>
+          <div class="select-custom" id="sortCustom">
+            <button class="select-custom__trigger" id="sortCustomBtn" type="button" aria-expanded="false" aria-haspopup="listbox">
+              Сортувати: популярні
+            </button>
+            <div class="select-custom__menu" id="sortCustomMenu" role="listbox" aria-label="Сортування"></div>
+            <select id="sortSelect" class="select select--native-hidden" tabindex="-1" aria-hidden="true">
+              <option value="popular">Сортувати: популярні</option>
+              <option value="priceAsc">Ціна: ↑</option>
+              <option value="priceDesc">Ціна: ↓</option>
+              <option value="nameAsc">Назва: A→Я</option>
+            </select>
+          </div>
+          <button class="btn btn--ghost" id="clearBtn">Скинути</button>
+        </div>
+
+        <div id="promo-products"></div>
+        <div class="grid" id="productsGrid"></div>
+      </div>
+    </section>
+
+    <div class="cart-overlay" id="cartOverlay" aria-hidden="true"></div>
+
+    <!-- CART -->
+    <aside class="cart" id="cartPanel" aria-hidden="true">
+      <div class="cart__head">
+        <h3>Кошик</h3>
+        <div class="muted" id="cartCount">0 товарів</div>
+      </div>
+
+      <div class="cart__list" id="cartList"></div>
+
+      <div class="cart__footer">
+        <div class="cart__totalRow">
+          <span>Сума</span>
+          <strong id="cartTotal">0 ₴</strong>
+        </div>
+        <button class="btn btn--full" type="button" id="openOrderBtn">Перейти до оформлення</button>
+      </div>
+    </aside>
+
+    <div class="order-overlay" id="orderOverlay" aria-hidden="true"></div>
+
+    <aside class="order-modal" id="orderModal" aria-hidden="true" role="dialog" aria-modal="true" aria-labelledby="orderModalTitle">
+      <div class="order-modal__head">
+        <h3 id="orderModalTitle">Оформлення замовлення</h3>
+        <button class="order-modal__close" type="button" id="closeOrderBtn" aria-label="Закрити">✕</button>
+      </div>
+      <p class="muted">Після відправки замовлення піде в Google Sheets.</p>
+
+      <form id="orderForm" class="form">
+        <label class="label">
+          Ім’я
+          <input class="input" name="name" required minlength="2" placeholder="Ден" />
+        </label>
+
+        <label class="label">
+          Телефон
+          <input class="input" name="phone" required placeholder="+380…" />
+        </label>
+
+        <label class="label">
+          Коментар (необов’язково)
+          <textarea class="textarea" name="comment" rows="4" placeholder="Хочу полив на 20 метрів, порадьте комплект"></textarea>
+        </label>
+
+        <div class="form__row">
+          <button class="btn" type="submit">Надіслати замовлення</button>
+          <button class="btn btn--ghost" type="button" id="clearCartBtn">Очистити кошик</button>
+        </div>
+
+        <div class="notice" id="formNotice" aria-live="polite"></div>
+      </form>
+    </aside>
+
+    <footer class="footer">
+      <div class="container footer__inner">
+        <div>
+          <img class="footer__brand" src="../images/logo_too.png" alt="BALAGRO" />
+        </div>
+        <div class="muted">
+          Контакти: <a href="tel:+380000000000">+38 (000) 000-00-00</a> ·
+          <a href="#">Telegram</a>
+        </div>
+      </div>
+    </footer>
+  </main>
+
+  <script src="../../app.js"></script>
+</body>
+</html>
