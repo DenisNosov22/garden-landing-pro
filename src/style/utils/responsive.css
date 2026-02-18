@@ -19,6 +19,13 @@
   .hero__actions .btn{width:100%;text-align:center}
   .hero__trust{gap:8px}
   .pill{width:100%;justify-content:center;text-align:center}
+  .product__actions{gap:8px}
+  .product__addBtn{
+    white-space:nowrap;
+    padding:10px 8px;
+    font-size:15px;
+    line-height:1.1;
+  }
 }
 
 @media (max-width: 560px){

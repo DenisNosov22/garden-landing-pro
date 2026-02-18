@@ -288,7 +288,7 @@ function showAddedState(btn) {
   if (!id) return;
 
   const isAdded = Boolean(state.cart[id]);
-  btn.textContent = isAdded ? "Додано" : "Додати в кошик";
+  btn.textContent = isAdded ? "Додано" : "Додати";
   btn.classList.toggle("btn--added", isAdded);
 }
 
@@ -443,7 +443,7 @@ function renderProducts() {
         <div class="product__ctaRow">
           ${isAdded
             ? `<button class="product__removeAdded" type="button" data-remove-added="${p.id}" aria-label="Прибрати з кошика" title="Прибрати з кошика">❌</button>`
-            : `<button class="btn btn--full product__addBtn" data-add="${p.id}">Додати в кошик</button>`}
+            : `<button class="btn btn--full product__addBtn" data-add="${p.id}">Додати</button>`}
         </div>
       </div>
     `;
@@ -539,7 +539,7 @@ function syncQuickAddButtonState() {
   if (!quickAddBtn) return;
 
   const isAdded = Boolean(state.cart["drip-kit"]);
-  quickAddBtn.textContent = isAdded ? "Додано" : "Додати в кошик";
+  quickAddBtn.textContent = isAdded ? "Додано" : "Додати";
   quickAddBtn.classList.toggle("btn--added", isAdded);
 }
 

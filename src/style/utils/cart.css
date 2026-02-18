@@ -109,3 +109,27 @@
   color:var(--text);
   cursor:pointer;
 }
+
+@media (max-width: 560px){
+  .cart{
+    top:70px;
+    left:8px;
+    right:8px;
+    width:auto;
+    max-width:none;
+    max-height:76vh;
+    padding:12px;
+  }
+
+  .order-modal{
+    left:8px;
+    right:8px;
+    width:auto;
+    max-height:calc(100vh - 24px);
+    transform:translateY(-50%) scale(.98);
+  }
+
+  .order-modal--open{
+    transform:translateY(-50%) scale(1);
+  }
+}
