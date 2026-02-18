@@ -441,8 +441,9 @@ function renderProducts() {
           <button type="button" class="productQty__btn" data-qty-inc="${p.id}" aria-label="Збільшити кількість">+</button>
         </div>
         <div class="product__ctaRow">
-          <button class="btn btn--full product__addBtn${isAdded ? " btn--added" : ""}" data-add="${p.id}">${isAdded ? "Додано" : "Додати в кошик"}</button>
-          ${isAdded ? `<button class="product__removeAdded" type="button" data-remove-added="${p.id}" aria-label="Прибрати з кошика" title="Прибрати з кошика">🗑️</button>` : ""}
+          ${isAdded
+            ? `<button class="product__removeAdded" type="button" data-remove-added="${p.id}" aria-label="Прибрати з кошика" title="Прибрати з кошика">❌</button>`
+            : `<button class="btn btn--full product__addBtn" data-add="${p.id}">Додати в кошик</button>`}
         </div>
       </div>
     `;

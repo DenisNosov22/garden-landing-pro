@@ -1,13 +1,26 @@
-.hero{padding:42px 0 18px}
+.hero{padding:46px 0 34px}
+.hero .container.hero__grid{
+  max-width:none;
+  padding-left:clamp(16px, 2.5vw, 32px);
+  padding-right:clamp(16px, 2.5vw, 32px);
+}
 .hero__grid{
   display:grid;
-  grid-template-columns: 1.4fr .9fr;
-  gap:18px;
+  grid-template-columns:minmax(0, 1.35fr) minmax(320px, .9fr);
+  gap:clamp(18px, 2vw, 28px);
   align-items:stretch;
 }
+.hero__text{
+  background:var(--surface-soft);
+  border:1px solid var(--border-strong);
+  border-radius:var(--radius);
+  padding:24px;
+  backdrop-filter:blur(7px);
+  box-shadow:0 12px 30px rgba(0,0,0,.28);
+}
 .hero__text h1{font-size:clamp(28px,3.2vw,44px);line-height:1.1;margin:0 0 10px;color:var(--text-strong);text-shadow:0 2px 12px rgba(0,0,0,.35)}
-.hero__text p{color:#dce9e2;margin:0 0 18px;text-shadow:0 1px 8px rgba(0,0,0,.24)}
-.hero__actions{display:flex;gap:12px;flex-wrap:wrap;margin-bottom:16px}
+.hero__text p{color:#dce9e2;margin:0 0 18px;line-height:1.65;text-shadow:0 1px 8px rgba(0,0,0,.24)}
+.hero__actions{display:flex;gap:12px;flex-wrap:wrap;margin-bottom:16px;align-items:center}
 .hero__trust{display:flex;gap:10px;flex-wrap:wrap}
 .pill{
   background:var(--surface-soft);
@@ -25,6 +38,8 @@
   box-shadow:0 14px 34px rgba(0,0,0,.4);
   backdrop-filter:blur(8px);
   display:flex;flex-direction:column;gap:12px;
+  min-height:100%;
+  justify-content:space-between;
 }
 .hero__cardTop{display:flex;flex-direction:column;gap:12px}
 .badge{
@@ -42,16 +57,23 @@
 .price{font-size:22px;font-weight:800;color:var(--text-strong)}
 .oldPrice{text-decoration:line-through;color:var(--muted)}
 
-.section{padding:28px 0}
+.section{padding:40px 0}
+.section#catalog{padding-top:18px}
+.section#catalog > .container{
+  max-width:none;
+  padding-left:clamp(16px, 2.5vw, 32px);
+  padding-right:clamp(16px, 2.5vw, 32px);
+}
 .section--alt{background:var(--surface-soft);border-top:1px solid var(--border-strong);border-bottom:1px solid var(--border-strong)}
 .section__head h2{margin:0 0 6px;font-size:26px}
 .section__head{margin-bottom:14px}
+.section__head p{max-width:720px;line-height:1.65}
 
 .controls{
   display:grid;
   grid-template-columns: 1.4fr .8fr .8fr auto;
   gap:10px;
-  margin:14px 0 14px;
+  margin:18px 0 18px;
   padding:10px;
   border:1px solid var(--border-strong);
   border-radius:16px;
@@ -228,16 +250,17 @@
 .grid{
   display:grid;
   grid-template-columns: repeat(4, minmax(0,1fr));
-  gap:12px;
+  gap:16px;
 }
 
 .card{
   background:var(--surface);
   border:1px solid var(--border-strong);
   border-radius:var(--radius);
-  padding:14px;
+  padding:16px;
   backdrop-filter:blur(7px);
   box-shadow:0 10px 24px rgba(0,0,0,.24);
+  height:100%;
 }
 .card h3{margin:0 0 6px}
 .card p{margin:0;color:var(--muted)}
@@ -246,7 +269,7 @@
   background:var(--surface);
   border:1px solid var(--border-strong);
   border-radius:var(--radius);
-  padding:14px;
+  padding:16px;
   display:flex;
   flex-direction:column;
   gap:10px;
@@ -266,21 +289,23 @@
 .product__meta{display:flex;justify-content:space-between;align-items:baseline}
 .product__price{font-size:18px;font-weight:800}
 .product__desc{color:var(--muted);font-size:13px}
-.product__actions{display:flex;flex-direction:column;gap:14px;margin-top:auto}
-.product__ctaRow{display:flex;gap:10px;align-items:stretch}
+.product__actions{display:flex;flex-direction:row;gap:10px;margin-top:auto;align-items:stretch}
+.product__ctaRow{display:flex;gap:10px;align-items:stretch;justify-content:flex-end;flex-wrap:nowrap}
 .product__addBtn{flex:1;width:auto}
 
 .productQty{
   display:flex;
   align-items:center;
   justify-content:space-between;
-  width:100%;
+  width:auto;
+  flex:1;
   gap:6px;
   border:1px solid var(--border-strong);
   border-radius:12px;
   padding:6px;
   background:rgba(8,18,14,.72);
 }
+.product__ctaRow{flex:1;min-width:0}
 .productQty__btn{
   width:36px;
   height:36px;
@@ -306,8 +331,8 @@
 }
 
 .product__removeAdded{
-  min-width:58px;
-  padding:0 10px;
+  min-width:46px;
+  padding:0 8px;
   display:inline-flex;
   align-items:center;
   justify-content:center;
@@ -317,7 +342,7 @@
   color:var(--muted);
   box-shadow:none;
   line-height:1;
-  font-size:28px;
+  font-size:22px;
   font-weight:500;
   cursor:pointer;
   transition:color .18s ease, transform .18s ease, filter .18s ease, text-shadow .18s ease;
@@ -367,7 +392,7 @@
 .cards3{
   display:grid;
   grid-template-columns: repeat(3, minmax(0,1fr));
-  gap:12px;
+  gap:16px;
 }
 
 .faq details{
